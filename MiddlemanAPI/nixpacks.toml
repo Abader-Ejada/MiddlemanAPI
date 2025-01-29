@@ -1,2 +1,10 @@
-﻿[phases.setup]
-nixPkgs = ["dotnet-sdk_8"]
+﻿[build]
+  buildpacks = ["ghcr.io/railwayapp/nixpacks:ubuntu-1736208272"]
+
+[phases.setup]
+  # Install .NET 8.0 SDK
+  nixPkgs = ["dotnet-sdk_8"]
+
+[phases.build]
+  # Specify commands for build phase, including dotnet version setting
+  buildCommands = ["dotnet --version", "dotnet restore"]
