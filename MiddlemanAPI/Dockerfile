@@ -1,4 +1,4 @@
-﻿# Use official .NET SDK image to build the app
+﻿# Use official .NET SDK 8.0 image to build the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
@@ -12,7 +12,7 @@ COPY MiddlemanAPI/. MiddlemanAPI/
 WORKDIR /app/MiddlemanAPI
 RUN dotnet publish -c Release -o /out
 
-# Use runtime image to run the app
+# Use .NET 8 runtime image to run the app
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /out .
