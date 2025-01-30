@@ -14,18 +14,35 @@ namespace MiddlemanAPI.Controllers
         }
 
         [HttpGet("update")]
-        public async Task<IActionResult> UpdateStatus([FromQuery] string id, [FromQuery] string status)
+        public async Task<IActionResult> UpdateStatus([FromQuery] string accountId, [FromQuery] string status)
         {
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(status))
+            if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(status))
             {
-                return BadRequest("Missing id or status.");
+                return BadRequest("Missing accountId or status.");
+            }
+
+            // Convert status string to corresponding integer
+            int statusValue;
+            switch (status.ToLower())
+            {
+                case "accept":
+                    statusValue = 1;
+                    break;
+                case "reject":
+                    statusValue = 2;
+                    break;
+                case "pending":
+                    statusValue = 0;
+                    break;
+                default:
+                    return BadRequest("Invalid status value.");
             }
 
             // Prepare the request body for Power Automate
             var requestBody = new
             {
-                id = id,
-                status = status
+                accountId = accountId,
+                status = statusValue
             };
 
             var jsonContent = new StringContent(
@@ -56,5 +73,7 @@ namespace MiddlemanAPI.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
+
     }
 }
