@@ -14,17 +14,17 @@ namespace MiddlemanAPI.Controllers
         }
 
         [HttpGet("update")]
-        public async Task<IActionResult> UpdateStatus([FromQuery] string accountId, [FromQuery] string status)
+        public async Task<IActionResult> UpdateStatus([FromQuery] string id, [FromQuery] string status)
         {
-            if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(status))
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(status))
             {
-                return BadRequest("Missing accountId or status.");
+                return BadRequest("Missing id or status.");
             }
 
             // Prepare the request body for Power Automate
             var requestBody = new
             {
-                accountId = accountId,
+                id = id,
                 status = status
             };
 
